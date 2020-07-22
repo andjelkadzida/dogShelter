@@ -1,0 +1,101 @@
+﻿@model azilZaPse.Models.KuceBO
+
+@{
+    ViewBag.Title = "Dodaj";
+}
+
+
+<html>
+<body>
+    <div class="tekst">
+        <form class="form-horizontal" action="@Url.Action("Dodaj", "Pas")" method="post">
+
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Unos novog psa u azil</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">ID čipa:</label>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.IdCipa, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.IdCipa, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Ime:</label>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Ime, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Ime, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Rasa:</label>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Rasa, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Rasa, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="numberinput">Starost:</label>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Starost, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Starost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- Multiple Radios -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="radios">Pol:</label>
+                    <div class="col-md-4 klasa">
+                        @Html.RadioButtonFor(model => model.Pol, "Mužjak")
+                        Mužjak
+                        @Html.RadioButtonFor(model => model.Pol, "Ženka")
+                        Ženka
+                    </div>
+                    </div>
+
+                @Html.Hidden("UAzilu", "true")
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label text-center" for="singlebutton"></label>
+                        <div class="col-md-3">
+                            <input type="submit" value="Dodajte novog psa u Azil" class="btn btn-primary" />
+                        </div>
+                    <div class="col-md-3">
+                        <button type ="button" id="back" name="back" class="btn" onclick="location.href='@Url.Action("Index", "Radna")'">Nazad na glavnu stranicu</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
+
+<style>
+    .tekst {
+        width: 50%;
+        margin-left: 25%;
+        margin-top: 20px;
+    }
+
+    legend {
+        width: auto;
+        margin: 0 auto;
+        color: white;
+        margin-bottom: 20px;
+    }
+    .klasa
+    {
+        padding: 5px;
+        padding-left:10px;
+    }
+</style>

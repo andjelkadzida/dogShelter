@@ -1,0 +1,123 @@
+﻿@model azilZaPse.Models.ProizvedeniProizvodiBO
+
+@{
+    ViewBag.Title = "Upravljaj";
+}
+<html>
+<body>
+    <div class="tekst">
+        <form class="form-horizontal" action="" method="post">
+
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Upravljanje zalihama</legend>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="numberinput">Proizvod:</label>
+                    <div class="col-md-4">
+                        @*Dinamicno update-uje listu dobavljaca i omogucava input kolicina*@
+                        <input id="proizvod" name="proizvod" type="text" placeholder="Proizvod" class="form-control input-md" required="" onchange="omoguci(proizvod.value)">
+                    </div>
+                </div>
+                @*Dinamicno se menjaju proizvodjaci koji su dostupni*@
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="numberinput">Proizvođač:</label>
+                    <div id="Proizvodjaci" class="col-md-4">
+                        @{Html.RenderAction("ProizvodProizvodi", "Proizvod", new { Id = 0 });}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="numberinput">Količina:</label>
+                    <div class="col-md-4">
+                        <input id="kolicina" name="kolicina" type="text" placeholder="Količina" class="form-control input-md" readonly>
+                    </div>
+                </div>
+
+                <!-- Button -->
+
+                    <label class="col-md-2 control-label" for="singlebutton"></label>
+                    <div class="col-md-1">
+                        <button type="button" id="singlebutton" name="singlebutton" class="btn" onclick="poruciti()">Naručite zalihe</button>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="singlebutton"></label>
+                        <div class="col-md-2">
+                            <button type="button" id="singlebutton" name="singlebutton" class="btn" onclick="izbrisi()">Uklonite proizvod</button> @* ako ovde nije type button brisanje ne radi*@
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" id="back" name="back" class="btn" onclick="location.href='@Url.Action("Index", "Radna")'">Nazad na glavnu stranicu</button>
+                        </div>
+                    </div>
+
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
+
+<style>
+    .tekst {
+        width: 50%;
+        margin-left: 25%;
+        margin-top: 20px;
+    }
+
+    legend {
+        width: auto;
+        margin: 0 auto;
+        color: white;
+        margin-bottom: 20px;
+    }
+</style>
+
+<script type="text/javascript">
+    function omoguci(ID) {
+        document.getElementById('kolicina').readOnly = false;
+        @*Da ako korisnik izbrise unos, ne pojavljuju mu se nezeljeni proizvodjaci*@
+        if (ID == "") {
+            ID = 0;
+        }
+
+        $.ajax({
+            url: '@Url.Action("ProizvodProizvodi", "Proizvod")',
+            data: { id: ID},
+            success: function (result) {
+                $('#Proizvodjaci').html(result);
+            }
+        });
+    }
+
+    function poruciti() {
+        var a = document.getElementById('proizvod').value;
+        var b = document.getElementById('Proizvodjaci').firstChild.value;
+        if (b === undefined || b === "") {       @* mora obe provere, jer je undefined ako se klikne na izaberite proizvod, a "" ako korisnik klikne odmah nakon sto udje na stranicu *@
+            alert("Molimo izaberite proizvodjaca");
+            return;
+        }
+        var c = document.getElementById('kolicina').value;
+        {
+            $.ajax({
+                url: '@Url.Action("menjajStanjeProizvoda", "Proizvod")',
+                data: { idProizvoda: a, idProizvodjaca :b, kolicina:c }
+            }).done(function () {
+                alert('Promenjeno stanje proizvoda');
+                });
+        }
+    }
+
+    function izbrisi() {
+        var b = document.getElementById('proizvod').value;
+        {
+            $.ajax({
+                url: '@Url.Action("IzbrisiProizvod", "Proizvod")',
+                data: { id: b }
+            }).done(function () {
+                alert('Izbrisan');
+                });
+           @* alert('Izbrisan'); *@ @* bez ovoga se ne brise proizvod *@ @*Ovo nije tacno nije radilo zbog button type koji nije bio podesen, ali i dalje me zanima zasto ga ovo resi *@
+        }
+    }
+</script>
+

@@ -1,0 +1,94 @@
+﻿@model azilZaPse.Models.KartonPsaBO
+
+@{
+    ViewBag.Title = "Pregledaj";
+}
+
+<html>
+<body>
+    <div class="tekst">
+        <form class="form-horizontal" action="@Url.Action("Pregledaj", "Pas")" method="post" onsubmit="return Provera(IdCipa.value, Alergije.value)">
+
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Izmena podataka u kartonu psa</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="numberinput">ID čipa:</label>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.IdCipa, new { htmlAttributes = new { @class = "form-control", @id = "IdCipa" } })
+                        @Html.ValidationMessageFor(model => model.IdCipa, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <!-- Multiple Radios -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="radios">Da li je vakcinisan protiv besnila?</label>
+                    <div id="Vakcina" class="col-md-4">
+                        @Html.RadioButtonFor(model => model.DaLiJeVakcinisan, true)
+                        Da
+                        @Html.RadioButtonFor(model => model.DaLiJeVakcinisan, false, new { @checked = "checked" })
+                        Ne
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Alergije:</label>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Alergije, new { htmlAttributes = new { @class = "form-control", @id = "Alergije" } })
+                        @Html.ValidationMessageFor(model => model.Alergije, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <!-- Multiple Radios -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="radios">Da li je očišćen od parazita?</label>
+                    <div id="Paraziti" class="col-md-4">
+                        @Html.RadioButtonFor(model => model.OciscenOdParazita, true)
+                        Da
+                        @Html.RadioButtonFor(model => model.OciscenOdParazita, false, new { @checked = "checked" })
+                        Ne
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="singlebutton"></label>
+                    <div class="col-md-3">
+                        <input type="submit" value="Potvrdite izmenu kartona" class="btn btn-primary" />
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" id="back" name="back" class="btn" onclick="location.href='@Url.Action("Index", "Radna")'">Nazad na glavnu stranicu</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
+
+<style>
+
+
+    legend {
+        width: auto;
+        margin: 0 auto;
+        color: white;
+        margin-bottom: 20px;
+    }
+</style>
+
+<script type="text/javascript">
+    function Provera(IdCipa,Alergije) {
+
+        if ((IdCipa == 0) || (Alergije == "")) {
+            alert("Molimo unesite sve podatke.");
+            alert(IdCipa + Vakcinisan + Alergije + Paraziti);
+            return;
+        }
+    }
+</script>
+

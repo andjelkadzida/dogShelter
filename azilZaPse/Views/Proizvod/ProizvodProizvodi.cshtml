@@ -1,0 +1,4 @@
+﻿@model IEnumerable<azilZaPse.Models.ProizvedeniProizvodiBO>
+
+@Html.DropDownList("Proizvodjac", new SelectList(Model.Select(k => k.proizvodjac),"idProizvodjaca", "nazivProizvodjaca") ?? new SelectList(Enumerable.Empty<SelectListItem>()), "Selektujte proizvodjaca", new { @class = "form-control input-md" })
+@* dodeljujem mu default vrednost ovde jer nisam siguran sta sve treba da mu predam iz glavnog view-a da ne bi zabagovao*@

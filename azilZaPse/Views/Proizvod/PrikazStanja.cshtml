@@ -1,0 +1,45 @@
+﻿@model IEnumerable<azilZaPse.Models.ProizvedeniProizvodiBO>
+
+<table class="table">
+    <caption>Rezultati pretrage za izabrani proizvod: </caption>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.proizvodjac.IdProizvodjaca)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.proizvodjac.NazivProizvodjaca)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.proizvodnja.DostupneKolicine)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.proizvodjac.IdProizvodjaca)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.proizvodjac.NazivProizvodjaca)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.proizvodnja.DostupneKolicine)
+        </td>
+    </tr>
+    }
+
+    <tr>
+        <td colspan="3">
+            Trenutne količine u azilu su: @(Model.FirstOrDefault()?.proizvod?.Kolicina ?? 0)
+        </td>
+    </tr>
+</table>
+
+
+<style>
+    caption {
+        text-align: center;
+        color: white;
+    }
+</style>

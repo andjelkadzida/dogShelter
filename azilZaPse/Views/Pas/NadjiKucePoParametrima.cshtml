@@ -1,0 +1,67 @@
+﻿@model IEnumerable<azilZaPse.Models.KuceBO>
+
+<table class="table">
+    <caption>Rezultati pretrage:</caption>
+    <tr>
+        <th style="width: 100px;">
+            ID čipa:
+        </th>
+        <th style="width: 100px;">
+            Rasa:
+        </th>
+        <th style="width: 100px;">
+            Pol:
+        </th>
+        <th style="width: 100px;">
+            Ime:
+        </th>
+        <th style="width: 100px;">
+            Starost:
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td style="width:20%">
+            @Html.DisplayFor(modelItem => item.IdCipa)
+        </td>
+        <td style="width:20%">
+            @Html.DisplayFor(modelItem => item.Rasa)
+        </td>
+        <td style="width:20%">
+            @Html.DisplayFor(modelItem => item.Pol)
+        </td>
+        <td style="width:20%">
+            @Html.DisplayFor(modelItem => item.Ime)
+        </td>
+        <td style="width:20%">
+            @Html.DisplayFor(modelItem => item.Starost)
+        </td>
+    </tr>
+}
+
+</table>
+<style>
+    caption{
+        text-align:center;
+        color:white;
+    }
+
+     table{
+        white-space:normal;
+        display: inline-block;
+        height: 300px;
+        overflow: scroll;
+        overflow-x: hidden;
+        margin: 0 auto;
+        width: 100%;
+        border-collapse: collapse;
+        table-layout:fixed !important;
+    }
+
+    td {
+        width: 20%;
+        text-align: center;
+        border: 1px solid black;
+    }
+</style>

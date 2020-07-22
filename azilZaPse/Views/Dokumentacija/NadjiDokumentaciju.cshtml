@@ -1,0 +1,81 @@
+﻿@model IEnumerable<azilZaPse.Models.DokumentacijaBO>
+
+<table class="table">
+    <caption>Rezultati pretrage:</caption>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdDokumentacije)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DatumIzdavanja)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdCipa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdVlasnika)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdDokumentacije)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DatumIzdavanja)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdCipa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdVlasnika)
+            </td>
+        </tr>
+
+
+        <tr>
+            <td colspan="4">
+                @Html.DisplayFor(modelItem => item.TekstDokumentacije)
+            </td>
+        </tr>
+    }
+</table>
+
+<style>
+    caption {
+        text-align: center;
+        color: white;
+    }
+
+    table {
+        white-space: normal;
+        display: inline-block;
+        height: 300px;
+        overflow: scroll;
+        overflow-x: hidden;
+        margin: 0 auto;
+        width: 600px !important;
+        border-collapse: collapse;
+        table-layout: fixed !important;
+    }
+
+    table th{
+        width: 150px;
+        text-align: center;
+        border: 1px solid black;
+        max-width: 400px;
+        white-space: nowrap;
+        text-wrap: normal;
+        word-break:break-all !important;
+    }
+
+    table td {
+        text-align: left;
+        border: 1px solid black;
+        max-width: 400px;
+        text-wrap: normal;
+        word-break:break-all !important;
+    }
+</style>

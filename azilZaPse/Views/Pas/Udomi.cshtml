@@ -1,0 +1,57 @@
+﻿@model azilZaPse.Models.KuceBO
+
+@{
+    ViewBag.Title = "Udomi";
+}
+
+<html>
+<body>
+    <div class="tekst">
+        <form class="form-horizontal" action="@Url.Action("Udomi", "Pas")" method="post">
+
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Promenite status psa u azilu</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="numberinput">ID čipa:</label>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.IdCipa, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.IdCipa, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label text-center" for="singlebutton"></label>
+                    <div class="col-md-3">
+                        <button id="singlebutton" name="singlebutton" class="btn btn-primary">Promenite status psa</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" id="back" name="back" class="btn" onclick="location.href='@Url.Action("Index", "Radna")'">Nazad na glavnu stranicu</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
+
+<style>
+    .tekst {
+        width: 50%;
+        margin-left: 25%;
+        margin-top: 20px;
+    }
+
+    legend {
+        width: auto;
+        margin: 0 auto;
+        color: white;
+        margin-bottom: 20px;
+    }
+</style>
+
+

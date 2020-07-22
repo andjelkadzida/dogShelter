@@ -1,0 +1,530 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AzilZaPseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Dokumentacija">
+          <Key>
+            <PropertyRef Name="idDokumentacije" />
+          </Key>
+          <Property Name="idDokumentacije" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tekstDokumentacije" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="datumIzdavanja" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="idCipa" Type="int" Nullable="false" />
+          <Property Name="idVlasnika" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KartonPsa">
+          <Key>
+            <PropertyRef Name="idCipa" />
+          </Key>
+          <Property Name="idCipa" Type="int" Nullable="false" />
+          <Property Name="daLiJeVakcinisan" Type="bit" />
+          <Property Name="alergije" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ociscenOdParazita" Type="bit" />
+        </EntityType>
+        <EntityType Name="Korisnik">
+          <Key>
+            <PropertyRef Name="idKorisnika" />
+          </Key>
+          <Property Name="idKorisnika" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="korisnickoime" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="sifra" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Kuce">
+          <Key>
+            <PropertyRef Name="idCipa" />
+          </Key>
+          <Property Name="idCipa" Type="int" Nullable="false" />
+          <Property Name="rasa" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="pol" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="starost" Type="int" Nullable="false" />
+          <Property Name="ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="idVlasnika" Type="nvarchar" MaxLength="20" />
+          <Property Name="uAzilu" Type="bit" />
+        </EntityType>
+        <EntityType Name="Proizvod">
+          <Key>
+            <PropertyRef Name="idProizvoda" />
+          </Key>
+          <Property Name="idProizvoda" Type="int" Nullable="false" />
+          <Property Name="nazivProizvoda" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="kolicina" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proizvodjac">
+          <Key>
+            <PropertyRef Name="idProizvodjaca" />
+          </Key>
+          <Property Name="idProizvodjaca" Type="int" Nullable="false" />
+          <Property Name="nazivProizvodjaca" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="grad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ulica" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proizvodnja">
+          <Key>
+            <PropertyRef Name="idProizvoda" />
+            <PropertyRef Name="idProizvodjaca" />
+          </Key>
+          <Property Name="idProizvoda" Type="int" Nullable="false" />
+          <Property Name="idProizvodjaca" Type="int" Nullable="false" />
+          <Property Name="dostupneKolicine" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Vlasnik">
+          <Key>
+            <PropertyRef Name="idVlasnika" />
+          </Key>
+          <Property Name="idVlasnika" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="imeVlasnika" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="prezimeVlasnika" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="adresa" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Dokumentacija_Pas">
+          <End Role="Kuce" Type="Self.Kuce" Multiplicity="1" />
+          <End Role="Dokumentacija" Type="Self.Dokumentacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kuce">
+              <PropertyRef Name="idCipa" />
+            </Principal>
+            <Dependent Role="Dokumentacija">
+              <PropertyRef Name="idCipa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dokumentacija_Vlasnik">
+          <End Role="Vlasnik" Type="Self.Vlasnik" Multiplicity="1" />
+          <End Role="Dokumentacija" Type="Self.Dokumentacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vlasnik">
+              <PropertyRef Name="idVlasnika" />
+            </Principal>
+            <Dependent Role="Dokumentacija">
+              <PropertyRef Name="idVlasnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KartonPsa_Pas">
+          <End Role="Kuce" Type="Self.Kuce" Multiplicity="1" />
+          <End Role="KartonPsa" Type="Self.KartonPsa" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Kuce">
+              <PropertyRef Name="idCipa" />
+            </Principal>
+            <Dependent Role="KartonPsa">
+              <PropertyRef Name="idCipa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pas_Vlasnik">
+          <End Role="Vlasnik" Type="Self.Vlasnik" Multiplicity="0..1" />
+          <End Role="Kuce" Type="Self.Kuce" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vlasnik">
+              <PropertyRef Name="idVlasnika" />
+            </Principal>
+            <Dependent Role="Kuce">
+              <PropertyRef Name="idVlasnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proizvodnja_Proizvod">
+          <End Role="Proizvod" Type="Self.Proizvod" Multiplicity="1" />
+          <End Role="Proizvodnja" Type="Self.Proizvodnja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proizvod">
+              <PropertyRef Name="idProizvoda" />
+            </Principal>
+            <Dependent Role="Proizvodnja">
+              <PropertyRef Name="idProizvoda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proizvodnja_Proizvodjac">
+          <End Role="Proizvodjac" Type="Self.Proizvodjac" Multiplicity="1" />
+          <End Role="Proizvodnja" Type="Self.Proizvodnja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proizvodjac">
+              <PropertyRef Name="idProizvodjaca" />
+            </Principal>
+            <Dependent Role="Proizvodnja">
+              <PropertyRef Name="idProizvodjaca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AzilZaPseModelStoreContainer">
+          <EntitySet Name="Dokumentacija" EntityType="Self.Dokumentacija" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KartonPsa" EntityType="Self.KartonPsa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Korisnik" EntityType="Self.Korisnik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kuce" EntityType="Self.Kuce" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proizvod" EntityType="Self.Proizvod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proizvodjac" EntityType="Self.Proizvodjac" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proizvodnja" EntityType="Self.Proizvodnja" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vlasnik" EntityType="Self.Vlasnik" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Dokumentacija_Pas" Association="Self.FK_Dokumentacija_Pas">
+            <End Role="Kuce" EntitySet="Kuce" />
+            <End Role="Dokumentacija" EntitySet="Dokumentacija" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dokumentacija_Vlasnik" Association="Self.FK_Dokumentacija_Vlasnik">
+            <End Role="Vlasnik" EntitySet="Vlasnik" />
+            <End Role="Dokumentacija" EntitySet="Dokumentacija" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KartonPsa_Pas" Association="Self.FK_KartonPsa_Pas">
+            <End Role="Kuce" EntitySet="Kuce" />
+            <End Role="KartonPsa" EntitySet="KartonPsa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pas_Vlasnik" Association="Self.FK_Pas_Vlasnik">
+            <End Role="Vlasnik" EntitySet="Vlasnik" />
+            <End Role="Kuce" EntitySet="Kuce" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proizvodnja_Proizvod" Association="Self.FK_Proizvodnja_Proizvod">
+            <End Role="Proizvod" EntitySet="Proizvod" />
+            <End Role="Proizvodnja" EntitySet="Proizvodnja" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proizvodnja_Proizvodjac" Association="Self.FK_Proizvodnja_Proizvodjac">
+            <End Role="Proizvodjac" EntitySet="Proizvodjac" />
+            <End Role="Proizvodnja" EntitySet="Proizvodnja" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AzilZaPseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Dokumentacija">
+          <Key>
+            <PropertyRef Name="idDokumentacije" />
+          </Key>
+          <Property Name="idDokumentacije" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tekstDokumentacije" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="datumIzdavanja" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idCipa" Type="Int32" Nullable="false" />
+          <Property Name="idVlasnika" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Kuce" Relationship="Self.FK_Dokumentacija_Pas" FromRole="Dokumentacija" ToRole="Kuce" />
+          <NavigationProperty Name="Vlasnik" Relationship="Self.FK_Dokumentacija_Vlasnik" FromRole="Dokumentacija" ToRole="Vlasnik" />
+        </EntityType>
+        <EntityType Name="KartonPsa">
+          <Key>
+            <PropertyRef Name="idCipa" />
+          </Key>
+          <Property Name="idCipa" Type="Int32" Nullable="false" />
+          <Property Name="daLiJeVakcinisan" Type="Boolean" />
+          <Property Name="alergije" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ociscenOdParazita" Type="Boolean" />
+          <NavigationProperty Name="Kuce" Relationship="Self.FK_KartonPsa_Pas" FromRole="KartonPsa" ToRole="Kuce" />
+        </EntityType>
+        <EntityType Name="Kuce">
+          <Key>
+            <PropertyRef Name="idCipa" />
+          </Key>
+          <Property Name="idCipa" Type="Int32" Nullable="false" />
+          <Property Name="rasa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="pol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="starost" Type="Int32" Nullable="false" />
+          <Property Name="ime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idVlasnika" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="uAzilu" Type="Boolean" />
+          <NavigationProperty Name="Dokumentacijas" Relationship="Self.FK_Dokumentacija_Pas" FromRole="Kuce" ToRole="Dokumentacija" />
+          <NavigationProperty Name="KartonPsa" Relationship="Self.FK_KartonPsa_Pas" FromRole="Kuce" ToRole="KartonPsa" />
+          <NavigationProperty Name="Vlasnik" Relationship="Self.FK_Pas_Vlasnik" FromRole="Kuce" ToRole="Vlasnik" />
+        </EntityType>
+        <EntityType Name="Proizvod">
+          <Key>
+            <PropertyRef Name="idProizvoda" />
+          </Key>
+          <Property Name="idProizvoda" Type="Int32" Nullable="false" />
+          <Property Name="nazivProizvoda" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="kolicina" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Proizvodnjas" Relationship="Self.FK_Proizvodnja_Proizvod" FromRole="Proizvod" ToRole="Proizvodnja" />
+        </EntityType>
+        <EntityType Name="Proizvodjac">
+          <Key>
+            <PropertyRef Name="idProizvodjaca" />
+          </Key>
+          <Property Name="idProizvodjaca" Type="Int32" Nullable="false" />
+          <Property Name="nazivProizvodjaca" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="grad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ulica" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Proizvodnjas" Relationship="Self.FK_Proizvodnja_Proizvodjac" FromRole="Proizvodjac" ToRole="Proizvodnja" />
+        </EntityType>
+        <EntityType Name="Proizvodnja">
+          <Key>
+            <PropertyRef Name="idProizvoda" />
+            <PropertyRef Name="idProizvodjaca" />
+          </Key>
+          <Property Name="idProizvoda" Type="Int32" Nullable="false" />
+          <Property Name="idProizvodjaca" Type="Int32" Nullable="false" />
+          <Property Name="dostupneKolicine" Type="Int32" />
+          <NavigationProperty Name="Proizvod" Relationship="Self.FK_Proizvodnja_Proizvod" FromRole="Proizvodnja" ToRole="Proizvod" />
+          <NavigationProperty Name="Proizvodjac" Relationship="Self.FK_Proizvodnja_Proizvodjac" FromRole="Proizvodnja" ToRole="Proizvodjac" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Vlasnik">
+          <Key>
+            <PropertyRef Name="idVlasnika" />
+          </Key>
+          <Property Name="idVlasnika" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="imeVlasnika" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="prezimeVlasnika" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="adresa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Dokumentacijas" Relationship="Self.FK_Dokumentacija_Vlasnik" FromRole="Vlasnik" ToRole="Dokumentacija" />
+          <NavigationProperty Name="Kuces" Relationship="Self.FK_Pas_Vlasnik" FromRole="Vlasnik" ToRole="Kuce" />
+        </EntityType>
+        <Association Name="FK_Dokumentacija_Pas">
+          <End Role="Kuce" Type="Self.Kuce" Multiplicity="1" />
+          <End Role="Dokumentacija" Type="Self.Dokumentacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kuce">
+              <PropertyRef Name="idCipa" />
+            </Principal>
+            <Dependent Role="Dokumentacija">
+              <PropertyRef Name="idCipa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dokumentacija_Vlasnik">
+          <End Role="Vlasnik" Type="Self.Vlasnik" Multiplicity="1" />
+          <End Role="Dokumentacija" Type="Self.Dokumentacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vlasnik">
+              <PropertyRef Name="idVlasnika" />
+            </Principal>
+            <Dependent Role="Dokumentacija">
+              <PropertyRef Name="idVlasnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KartonPsa_Pas">
+          <End Role="Kuce" Type="Self.Kuce" Multiplicity="1" />
+          <End Role="KartonPsa" Type="Self.KartonPsa" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Kuce">
+              <PropertyRef Name="idCipa" />
+            </Principal>
+            <Dependent Role="KartonPsa">
+              <PropertyRef Name="idCipa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pas_Vlasnik">
+          <End Role="Vlasnik" Type="Self.Vlasnik" Multiplicity="0..1" />
+          <End Role="Kuce" Type="Self.Kuce" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vlasnik">
+              <PropertyRef Name="idVlasnika" />
+            </Principal>
+            <Dependent Role="Kuce">
+              <PropertyRef Name="idVlasnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proizvodnja_Proizvod">
+          <End Role="Proizvod" Type="Self.Proizvod" Multiplicity="1" />
+          <End Role="Proizvodnja" Type="Self.Proizvodnja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proizvod">
+              <PropertyRef Name="idProizvoda" />
+            </Principal>
+            <Dependent Role="Proizvodnja">
+              <PropertyRef Name="idProizvoda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proizvodnja_Proizvodjac">
+          <End Role="Proizvodjac" Type="Self.Proizvodjac" Multiplicity="1" />
+          <End Role="Proizvodnja" Type="Self.Proizvodnja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proizvodjac">
+              <PropertyRef Name="idProizvodjaca" />
+            </Principal>
+            <Dependent Role="Proizvodnja">
+              <PropertyRef Name="idProizvodjaca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AzilZaPseEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Dokumentacijas" EntityType="Self.Dokumentacija" />
+          <EntitySet Name="KartonPsas" EntityType="Self.KartonPsa" />
+          <EntitySet Name="Kuces" EntityType="Self.Kuce" />
+          <EntitySet Name="Proizvods" EntityType="Self.Proizvod" />
+          <EntitySet Name="Proizvodjacs" EntityType="Self.Proizvodjac" />
+          <EntitySet Name="Proizvodnjas" EntityType="Self.Proizvodnja" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Vlasniks" EntityType="Self.Vlasnik" />
+          <AssociationSet Name="FK_Dokumentacija_Pas" Association="Self.FK_Dokumentacija_Pas">
+            <End Role="Kuce" EntitySet="Kuces" />
+            <End Role="Dokumentacija" EntitySet="Dokumentacijas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dokumentacija_Vlasnik" Association="Self.FK_Dokumentacija_Vlasnik">
+            <End Role="Vlasnik" EntitySet="Vlasniks" />
+            <End Role="Dokumentacija" EntitySet="Dokumentacijas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KartonPsa_Pas" Association="Self.FK_KartonPsa_Pas">
+            <End Role="Kuce" EntitySet="Kuces" />
+            <End Role="KartonPsa" EntitySet="KartonPsas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pas_Vlasnik" Association="Self.FK_Pas_Vlasnik">
+            <End Role="Vlasnik" EntitySet="Vlasniks" />
+            <End Role="Kuce" EntitySet="Kuces" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proizvodnja_Proizvod" Association="Self.FK_Proizvodnja_Proizvod">
+            <End Role="Proizvod" EntitySet="Proizvods" />
+            <End Role="Proizvodnja" EntitySet="Proizvodnjas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proizvodnja_Proizvodjac" Association="Self.FK_Proizvodnja_Proizvodjac">
+            <End Role="Proizvodjac" EntitySet="Proizvodjacs" />
+            <End Role="Proizvodnja" EntitySet="Proizvodnjas" />
+          </AssociationSet>
+          <EntitySet Name="Korisniks" EntityType="AzilZaPseModel.Korisnik" />
+          </EntityContainer>
+        <EntityType Name="Korisnik">
+          <Key>
+            <PropertyRef Name="idKorisnika" />
+          </Key>
+          <Property Name="idKorisnika" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="korisnickoime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sifra" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AzilZaPseModelStoreContainer" CdmEntityContainer="AzilZaPseEntities1">
+          <EntitySetMapping Name="Dokumentacijas">
+            <EntityTypeMapping TypeName="AzilZaPseModel.Dokumentacija">
+              <MappingFragment StoreEntitySet="Dokumentacija">
+                <ScalarProperty Name="idDokumentacije" ColumnName="idDokumentacije" />
+                <ScalarProperty Name="tekstDokumentacije" ColumnName="tekstDokumentacije" />
+                <ScalarProperty Name="datumIzdavanja" ColumnName="datumIzdavanja" />
+                <ScalarProperty Name="idCipa" ColumnName="idCipa" />
+                <ScalarProperty Name="idVlasnika" ColumnName="idVlasnika" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KartonPsas">
+            <EntityTypeMapping TypeName="AzilZaPseModel.KartonPsa">
+              <MappingFragment StoreEntitySet="KartonPsa">
+                <ScalarProperty Name="idCipa" ColumnName="idCipa" />
+                <ScalarProperty Name="daLiJeVakcinisan" ColumnName="daLiJeVakcinisan" />
+                <ScalarProperty Name="alergije" ColumnName="alergije" />
+                <ScalarProperty Name="ociscenOdParazita" ColumnName="ociscenOdParazita" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kuces">
+            <EntityTypeMapping TypeName="AzilZaPseModel.Kuce">
+              <MappingFragment StoreEntitySet="Kuce">
+                <ScalarProperty Name="idCipa" ColumnName="idCipa" />
+                <ScalarProperty Name="rasa" ColumnName="rasa" />
+                <ScalarProperty Name="pol" ColumnName="pol" />
+                <ScalarProperty Name="starost" ColumnName="starost" />
+                <ScalarProperty Name="ime" ColumnName="ime" />
+                <ScalarProperty Name="idVlasnika" ColumnName="idVlasnika" />
+                <ScalarProperty Name="uAzilu" ColumnName="uAzilu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proizvods">
+            <EntityTypeMapping TypeName="AzilZaPseModel.Proizvod">
+              <MappingFragment StoreEntitySet="Proizvod">
+                <ScalarProperty Name="idProizvoda" ColumnName="idProizvoda" />
+                <ScalarProperty Name="nazivProizvoda" ColumnName="nazivProizvoda" />
+                <ScalarProperty Name="kolicina" ColumnName="kolicina" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proizvodjacs">
+            <EntityTypeMapping TypeName="AzilZaPseModel.Proizvodjac">
+              <MappingFragment StoreEntitySet="Proizvodjac">
+                <ScalarProperty Name="idProizvodjaca" ColumnName="idProizvodjaca" />
+                <ScalarProperty Name="nazivProizvodjaca" ColumnName="nazivProizvodjaca" />
+                <ScalarProperty Name="grad" ColumnName="grad" />
+                <ScalarProperty Name="ulica" ColumnName="ulica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proizvodnjas">
+            <EntityTypeMapping TypeName="AzilZaPseModel.Proizvodnja">
+              <MappingFragment StoreEntitySet="Proizvodnja">
+                <ScalarProperty Name="idProizvoda" ColumnName="idProizvoda" />
+                <ScalarProperty Name="idProizvodjaca" ColumnName="idProizvodjaca" />
+                <ScalarProperty Name="dostupneKolicine" ColumnName="dostupneKolicine" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AzilZaPseModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vlasniks">
+            <EntityTypeMapping TypeName="AzilZaPseModel.Vlasnik">
+              <MappingFragment StoreEntitySet="Vlasnik">
+                <ScalarProperty Name="idVlasnika" ColumnName="idVlasnika" />
+                <ScalarProperty Name="imeVlasnika" ColumnName="imeVlasnika" />
+                <ScalarProperty Name="prezimeVlasnika" ColumnName="prezimeVlasnika" />
+                <ScalarProperty Name="adresa" ColumnName="adresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Korisniks">
+            <EntityTypeMapping TypeName="AzilZaPseModel.Korisnik">
+              <MappingFragment StoreEntitySet="Korisnik">
+                <ScalarProperty Name="sifra" ColumnName="sifra" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="korisnickoime" ColumnName="korisnickoime" />
+                <ScalarProperty Name="idKorisnika" ColumnName="idKorisnika" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

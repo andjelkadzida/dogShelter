@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Pretraga";
+}
+<html>
+<body>
+    <div class="tekst">
+        <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Pretraga dokumentacije</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">ID vlasnika:</label>
+                    <div class="col-md-4">
+                        <input id="idVlasnika" name="idVlasnika" type="text" placeholder="ID vlasnika" class="form-control input-md" required="">
+                    </div>
+                </div>
+
+                <!--Text area-->
+                <div class="form-group">
+                    <div style="display:flex;justify-content:center;align-items:center;">
+                        <div id="SvaDokumentacija" style="display:flex;justify-content:center;align-items:center;">
+                            @{Html.RenderAction("NadjiDokumentaciju", "Dokumentacija", new { idVlasnika = "0"});}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label text-center" for="singlebutton"></label>
+                    <div class="col-md-3">
+                        <button type="button" id="singlebutton" name="singlebutton" class="btn" onclick="pretrazi(idVlasnika.value)">Pretražite dokumentaciju</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" id="back" name="back" class="btn" onclick="location.href='@Url.Action("Index", "Radna")'">Nazad na glavnu stranicu</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
+<style>
+
+    legend {
+        width: auto;
+        margin: 0 auto;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+        #SvaDokumentacija {
+            width: 600px;
+        }
+</style>
+
+<script type="text/javascript">
+    function pretrazi(IdVlasnika) {
+        var a = document.getElementById("idVlasnika").value;
+
+        if (a == "") {
+            alert("Molimo unesite id vlasnika po kojem trazimo.");
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("NadjiDokumentaciju", "Dokumentacija")',
+            data: { idVlasnika: IdVlasnika },
+            success: function (result) {
+                $('#SvaDokumentacija').html(result);
+            }
+        });
+    }
+</script>
+
+

@@ -1,0 +1,99 @@
+﻿@model azilZaPse.Models.KorisnikBO
+@{
+    ViewBag.Title = "Index";
+}
+
+    <html>
+    <body>
+            <div class="glavna">
+                <h1 align="center">Azil za pse Mrvica</h1>
+                <br /><br />
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h2 align="center">Rad sa psima</h2>
+                        </div>
+                        <div class="col-md-4">
+                            <h2 align="center">Dokumentacija</h2>
+                        </div>
+                        <div class="col-md-4">
+                            <h2 align="center">Zalihe</h2>
+                        </div>
+                    </div>
+                </div>
+                <br /><br />
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="button" value="Registracija novog psa" onclick="location.href='@Url.Action("Dodaj", "Pas")'">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="button" value="Izdavanje dokumentacije" onclick="location.href='@Url.Action("Izdaj", "Dokumentacija")'">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="button" value="Provera stanja zaliha" onclick="location.href='@Url.Action("Proveri", "Proizvod")'">
+                        </div>
+                    </div>
+                </div>
+                <br /><br />
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="button" value="Pretrazi pse po kriterijumu" onclick="location.href='@Url.Action("Trazi", "Pas")'">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="button" value="Pretraga dokumentacije" onclick="location.href='@Url.Action("Pretraga", "Dokumentacija")'">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="button" value="Upravljanje zalihama" onclick="location.href='@Url.Action("Upravljaj", "Proizvod")'">
+                        </div>
+                    </div>
+                </div>
+                <br /><br />
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="button" value="Izmena kartona psa" onclick="location.href='@Url.Action("Pregledaj", "Pas")'">
+                        </div>
+                    </div>
+                </div>
+                <br /><br />
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="button" value="Izmena statusa psa" onclick="location.href='@Url.Action("Udomi", "Pas")'">
+                        </div>
+                    </div>
+                </div>
+                <br /><br />
+            </div>
+    </body>
+</html>
+
+<style>
+    input[type=button] {
+        margin: 0 auto;
+        color: black;
+        width: 200px;
+        border-radius: 10px;
+        background-color: #008CBA;
+        padding: 0px;
+        border: 0px;
+        height: 30px;
+        font-family: sans-serif;
+        color: white;
+    }
+
+    .col-md-4 {
+        text-align: center;
+    }
+
+    h1 {
+        padding-top: 20px;
+    }
+
+    .glavna {
+        background-color: rgba(0,0,0,0.5);
+        color: white;
+    }
+</style>

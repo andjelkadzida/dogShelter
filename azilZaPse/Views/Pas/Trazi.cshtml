@@ -1,0 +1,115 @@
+﻿@using azilZaPse.Models.Repository_Ef_Baza
+
+@{
+    ViewBag.Title = "Trazi";
+}
+
+<html>
+<body>
+    <div class="tekst">
+        <form name="forma" class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Pretraga pasa po kriterijumu</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Rasa:</label>
+                    <div class="col-md-4">
+                        <input id="textinput" name="rasa" type="text" placeholder="Rasa psa" class="form-control input-md" required="">
+                    </div>
+                </div>
+
+                <!-- Multiple Radios -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="radios">Pol:</label>
+                    <div class="col-md-4">
+                        <div class="radio">
+                            <label for="radios-0">
+                                <input type="radio" name="pol" id="radios-0" value="Mužjak">
+                                Mužjak
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label for="radios-1">
+                                <input type="radio" name="pol" id="radios-1" value="Ženka">
+                                Ženka
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="numberinput">Starost:</label>
+                    <div class="col-md-4">
+                        <input id="starost" name="starost" type="number" placeholder="Starost psa" class="form-control input-md" required="">
+                    </div>
+                </div>
+                <!--Text area-->
+                <div style="display:flex;justify-content:center;align-items:center;">
+                    <div id="SviKucici" style="display:flex;justify-content:center;align-items:center;">
+                        @{Html.RenderAction("NadjiKucePoParametrima", "Pas", new { starost = -1, rasa = "", pol = "" });}
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label text-center" for="singlebutton"></label>
+                    <div class="col-md-3">
+                        <button type="button" id="singlebutton" name="singlebutton" class="btn" onclick="pretrazi(starost.value, pol.value, rasa.value)">Pretražite pse</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" id="back" name="back" class="btn" onclick="location.href='@Url.Action("Index", "Radna")'">Nazad na glavnu stranicu</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+</body>
+</html>
+<style>
+    .tekst {
+        width: 50%;
+        margin-left: 25%;
+        margin-top: 20px;
+    }
+
+    legend {
+        width: auto;
+        margin: 0 auto;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    #SviKucici {
+        width: 500px;
+    }
+</style>
+
+<script type="text/javascript">
+    function pretrazi(Starost, Pol, Rasa) {
+        var a = document.getElementById("starost").value;
+        if (a == "") {
+            Starost = 0;
+        }
+
+        if ((Starost == 0) && (Pol == "") && (Rasa == "")) {
+            alert("Molimo unesite pretragu po barem jednom parametru.");
+            return;
+        }
+        
+        $.ajax({
+            url: '@Url.Action("NadjiKucePoParametrima", "Pas")',
+            data: { starost: Starost, pol: Pol, rasa: Rasa},
+            success: function (result) {
+                $('#SviKucici').html(result);
+            }
+        });
+    }
+</script>
+
+

@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "Proveri";
+}
+<html>
+<body>
+    <div class="tekst">
+        <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Provera stanja zaliha</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Proizvod:</label>
+                    <div class="col-md-4">
+                        <input id="proizvodID" name="proizvodID" type="text" placeholder="Proizvod" class="form-control input-md" required="">
+                    </div>
+                </div>
+
+                <!--Text area-->
+                <div style="display:flex;justify-content:center;align-items:center;">
+                    <div id="ProizvodPodaci" style="display:flex;justify-content:center;align-items:center;">
+                        @{Html.RenderAction("PrikazStanja", "Proizvod", new { Id = 0});}
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label text-center" for="singlebutton"></label>
+                    <div class="col-md-3">
+                        <button type="button" id="singlebutton" name="singlebutton" class="btn" onclick="pretrazi(proizvodID.value)">Proverite stanje zaliha</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" id="back" name="back" class="btn" onclick="location.href='@Url.Action("Index", "Radna")'">Nazad na glavnu stranicu</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
+<style>
+    .tekst {
+        width: 50%;
+        margin-left: 25%;
+        margin-top: 20px;
+    }
+
+    legend {
+        width: auto;
+        margin: 0 auto;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    #ProizvodPodaci {
+        width: 500px;
+    }
+</style>
+
+<script type="text/javascript">
+    function pretrazi(ID) {
+        var a = document.getElementById("proizvodID").value;
+        if (a == "") {
+            ID = 0;
+        }
+
+        if (ID == 0) {
+            alert("Molimo unesite ID za pretragu.");
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("PrikazStanja", "Proizvod")',
+            data: { id: ID},
+            success: function (result) {
+                $('#ProizvodPodaci').html(result);
+            }
+        });
+    }
+</script>
+
